@@ -1,1 +1,183 @@
 # Tip-Calculator-and-Bill-splitter-
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tip Calculator</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .active {
+            background-color: lightgreen;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Tip Calculator and Bill Splitter</h2>
+
+    Bill Amount (₹):
+    <br>
+    <input type="number" id="bill" onkeyup="calculate()">
+    <div id="billError" class="error"></div>
+
+    <br>
+
+    Tip Percentage:
+    <br><br>
+
+    <button onclick="tipValue(10)" id="b1">10%</button>
+    <button onclick="tipValue(15)" id="b2">15%</button>
+    <button onclick="tipValue(20)" id="b3">20%</button>
+
+    <br><br>
+
+    Custom Tip:
+    <input type="number" id="customTip" onkeyup="customTip()">
+    <div id="tipError" class="error"></div>
+
+    <br><br>
+
+    Number of People:
+    <br>
+    <input type="number" id="people" onkeyup="calculate()">
+    <div id="peopleError" class="error"></div>
+
+    <hr>
+
+    <h3>Result</h3>
+
+    Total Tip: ₹<span id="tip">0.00</span>
+    <br><br>
+
+    Grand Total: ₹<span id="total">0.00</span>
+    <br><br>
+
+    Per Person: ₹<span id="person">0.00</span>
+
+    <br><br>
+
+    <button onclick="resetData()">Reset</button>
+
+    <script>
+
+        var tipPercent = 0;
+
+        function tipValue(x)
+        {
+            tipPercent = x;
+
+            document.getElementById("customTip").value = "";
+
+            document.getElementById("b1").className = "";
+            document.getElementById("b2").className = "";
+            document.getElementById("b3").className = "";
+
+            if(x == 10)
+            {
+                document.getElementById("b1").className = "active";
+            }
+
+            if(x == 15)
+            {
+                document.getElementById("b2").className = "active";
+            }
+
+            if(x == 20)
+            {
+                document.getElementById("b3").className = "active";
+            }
+
+            calculate();
+        }
+
+        function customTip()
+        {
+            tipPercent = Number(document.getElementById("customTip").value);
+
+            document.getElementById("b1").className = "";
+            document.getElementById("b2").className = "";
+            document.getElementById("b3").className = "";
+
+            calculate();
+        }
+
+        function calculate()
+        {
+            var bill = Number(document.getElementById("bill").value);
+            var people = Number(document.getElementById("people").value);
+
+            document.getElementById("billError").innerHTML = "";
+            document.getElementById("tipError").innerHTML = "";
+            document.getElementById("peopleError").innerHTML = "";
+
+            if(bill <= 0)
+            {
+                document.getElementById("billError").innerHTML =
+                "Bill must be greater than 0";
+                return;
+            }
+
+            if(tipPercent < 0 || tipPercent > 100)
+            {
+                document.getElementById("tipError").innerHTML =
+                "Tip should be between 0 and 100";
+                return;
+            }
+
+            if(people < 1)
+            {
+                document.getElementById("peopleError").innerHTML =
+                "People must be at least 1";
+                return;
+            }
+
+            var tipAmount = bill * tipPercent / 100;
+
+            var grandTotal = bill + tipAmount;
+
+            var perPerson = grandTotal / people;
+
+            document.getElementById("tip").innerHTML =
+            tipAmount.toFixed(2);
+
+            document.getElementById("total").innerHTML =
+            grandTotal.toFixed(2);
+
+            document.getElementById("person").innerHTML =
+            perPerson.toFixed(2);
+        }
+
+        function resetData()
+        {
+            document.getElementById("bill").value = "";
+            document.getElementById("customTip").value = "";
+            document.getElementById("people").value = "";
+
+            tipPercent = 0;
+
+            document.getElementById("tip").innerHTML = "0.00";
+            document.getElementById("total").innerHTML = "0.00";
+            document.getElementById("person").innerHTML = "0.00";
+
+            document.getElementById("billError").innerHTML = "";
+            document.getElementById("tipError").innerHTML = "";
+            document.getElementById("peopleError").innerHTML = "";
+
+            document.getElementById("b1").className = "";
+            document.getElementById("b2").className = "";
+            document.getElementById("b3").className = "";
+        }
+
+    </script>
+
+</body>
+</html>
